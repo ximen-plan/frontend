@@ -25,7 +25,7 @@ service.interceptors.request.use(
   },
   error => {
     // do something with request error
-    console.log('request',error) // for debug
+    console.log('request', error) // for debug
     return Promise.reject(error)
   }
 )
@@ -65,16 +65,28 @@ service.interceptors.response.use(
           })
         })
       }
+
+      const responseType = response.config.responseType
+      if (
+        ['blob', 'arraybuffer', 'stream'].some(type => {
+          return type == responseType
+        })
+      ) {
+        return response
+      } else {
+        return response.data
+      }
+
       return Promise.reject(new Error(res.message || 'Error'))
     } else {
       return res
     }
   },
-   function(error) {
+  function(error) {
     console.log(error.response)
     console.log('err' + error) // for debug
-    //未认证
-    if(error.response.status == 401){
+    // 未认证
+    if (error.response.status == 401) {
       store.dispatch('user/resetToken')
       router.push({ path: '/login' })
       Message({
@@ -84,7 +96,6 @@ service.interceptors.response.use(
       })
       return Promise.reject(error)
     }
-
     Message({
       message: error.message,
       type: 'error',

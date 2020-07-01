@@ -7,10 +7,11 @@ const api = {
   findUserById: '/system/sysUser/findById',
   update: '/system/sysUser/update',
   page: '/system/sysUser/page',
-  add: '/system/sysUser/add'
+  add: '/system/sysUser/add',
+  exportUserInfo: '/system/sysUser/exportUserInfo'
 }
 
-//登录
+// 登录
 export function login(data) {
   return request({
     url: api.login,
@@ -19,15 +20,15 @@ export function login(data) {
   })
 }
 
-//获取用户信息
+// 获取用户信息
 export function getInfo(token) {
   return request({
     url: api.info,
-    method: 'get',
+    method: 'get'
   })
 }
 
-//登出
+// 登出
 export function logout() {
   return request({
     url: api.logout,
@@ -35,21 +36,20 @@ export function logout() {
   })
 }
 
-
-//分页查询
+// 分页查询
 export function page(params) {
   return request({
-    url: api.page + '/' + params.pageNumber + '/' +params.pageSize,
+    url: api.page + '/' + params.pageNumber + '/' + params.pageSize,
     method: 'get',
-    params: {searchKey: params.searchKey}
+    params: { searchKey: params.searchKey }
   })
 }
 
-//根据ID查询用户
+// 根据ID查询用户
 export function findUserById(params) {
   return request({
     url: api.findUserById + '/' + params.userId,
-    method: 'get',
+    method: 'get'
   })
 }
 
@@ -69,4 +69,15 @@ export function add(data) {
   })
 }
 
+/**
+ * 导出用户信息
+ * @returns {AxiosPromise}
+ */
+export function exportUserInfo() {
+  return request({
+    url: api.exportUserInfo,
+    method: 'get',
+    responseType: 'blob'
+  })
+}
 
